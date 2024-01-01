@@ -15,11 +15,16 @@ class RestaurantRepository{
         url.replace(queryParameters: requestData),
         headers: {'Content-Type': 'application/json'},
       );
-      print(response);
+
       final data = jsonDecode(response.body);
-      // List<Restaurant> restaurants = (data as List).map((e)=> Restaurant.fromJson(e)).toList();
+      List<Restaurant> restaurants = [];
+
+      for(var item in data){
+        restaurants.add(Restaurant.fromJson(item));
+      }
       // print(restaurants.length);
-      return data;
+      // print(restaurants);
+      return restaurants;
     }
     catch(e){
       return Future.error(e.toString());
