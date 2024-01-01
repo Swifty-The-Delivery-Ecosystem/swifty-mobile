@@ -7,7 +7,7 @@ class Restaurant {
   List<MenuItem> items;
   String imageUrl;
   String? description;
-  double? rating;
+  String? rating;
 
   Restaurant({
     this.id,
@@ -20,14 +20,20 @@ class Restaurant {
   });
 
   factory Restaurant.fromJson(Map<String, dynamic> json) {
+    List<MenuItem> menuItems = [];
+    for(var item in json['items']){
+      menuItems.add(MenuItem.fromJson(item));
+    }
+
     return Restaurant(
       id: json['_id'],
       name: json['name'],
       location: json['location'],
-      items: (json['items'] as List<dynamic>).map((item) => MenuItem.fromJson(item)).toList(),
+      // items: json['items'],
+      items: menuItems,
       imageUrl: json['image_url'],
       description: json['description'],
-      rating: json['rating']?.toDouble(),
+      rating: json['rating']['\$numberDecimal'],
     );
   }
 

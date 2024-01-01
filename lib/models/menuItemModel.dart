@@ -20,9 +20,10 @@ class MenuItem {
   });
 
   factory MenuItem.fromJson(Map<String, dynamic> json) {
+
     return MenuItem(
       name: json['name'],
-      restaurantId: json['restaurant_id'],
+      restaurantId: json['_id'],
       type: json['type'],
       price: json['price'].toDouble(),
       quantity: json['quantity'],
