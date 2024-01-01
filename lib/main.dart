@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart'; // Import Provider package
+import 'package:provider/provider.dart'; 
 import 'package:swifty_mobile/screens/dashboard.dart';
 import 'package:swifty_mobile/screens/intro_screen.dart';
-import 'package:swifty_mobile/providers/restaurants_provider.dart'; // Import your RestaurantProvider class
+import 'package:swifty_mobile/providers/restaurants_provider.dart';
+import 'package:swifty_mobile/screens/login.dart'; 
 
 void main() {
   runApp(const MyApp());
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => IntroScreen(),
           '/dashboard': (context) => Dashboard(),
+          '/login': (context) => LoginScreen(),
         },
       ),
     );

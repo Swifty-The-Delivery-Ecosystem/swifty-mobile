@@ -15,11 +15,11 @@ class IntroScreen extends StatelessWidget {
       ],
       onDone: () {
         // Navigate to Dashboard when done
-        Navigator.pushNamed(context, '/dashboard');
+        Navigator.pushNamed(context, '/login');
       },
       onSkip: () {
         // Navigate to Dashboard when skipped
-        Navigator.pushNamed(context, '/dashboard');
+        Navigator.pushNamed(context, '/login');
       },
       showSkipButton: true,
       skip: const Text("Skip"),
