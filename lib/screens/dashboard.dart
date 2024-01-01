@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../components/location_modal.dart';
+import '../models/restaurantModel.dart';
 import 'profile_screen.dart';
+import 'package:swifty_mobile/providers/restaurants_provider.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -93,6 +96,22 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ],
             ),
+            Expanded(child: Consumer<RestaurantProvider>(
+                builder: (context, restaurantProvider, _) {
+                  if (!restaurantProvider.isLoading) {
+                    return ListView.builder(
+                        itemCount: restaurantProvider.restaurants.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          Restaurant restaurant =
+                          restaurantProvider.restaurants[index];
+                          return Card(
+                            child: Text(restaurant.name),
+                          );
+                        });
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                }),)
           ],
         ),
       ),

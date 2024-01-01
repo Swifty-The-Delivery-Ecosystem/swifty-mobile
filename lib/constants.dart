@@ -1,0 +1,1 @@
+const INVENTORY_SERVICE_URL = 'https://inventory-service-git-main-swiftyeco.vercel.app/api/customer';
