@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:swifty_mobile/screens/dashboard.dart';
 
 class IntroScreen extends StatelessWidget {
   @override
@@ -16,19 +15,11 @@ class IntroScreen extends StatelessWidget {
       ],
       onDone: () {
         // Navigate to Dashboard when done
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (_) => Dashboard(),
-          ),
-        );
+        Navigator.pushNamed(context, '/dashboard');
       },
       onSkip: () {
         // Navigate to Dashboard when skipped
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (_) => Dashboard(),
-          ),
-        );
+        Navigator.pushNamed(context, '/dashboard');
       },
       showSkipButton: true,
       skip: const Text("Skip"),

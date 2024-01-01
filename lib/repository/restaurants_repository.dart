@@ -2,7 +2,6 @@ import 'dart:core';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:swifty_mobile/models/restaurantModel.dart';
-import 'package:swifty_mobile/constants.dart';
 
 class RestaurantRepository{
   Future<List<Restaurant>> getRestaurants(int locationID) async{
