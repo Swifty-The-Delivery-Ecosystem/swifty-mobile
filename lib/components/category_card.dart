@@ -29,7 +29,10 @@ class CategoryCard extends StatelessWidget {
           child: InkWell(
             onTap: () => onSelected(!selected),
             child: Ink(
-              width: 50,
+              width: 50
+              
+              
+              ,
               color: selected ? Colors.amber.withOpacity(0.5) : Colors.white,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

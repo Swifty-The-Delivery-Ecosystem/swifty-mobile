@@ -21,7 +21,9 @@ class MenuCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+      elevation: 2,
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
         padding: EdgeInsets.symmetric(horizontal: 8, vertical: 15),
@@ -34,10 +36,14 @@ class MenuCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // ...
+
                   Container(
                     padding: EdgeInsets.all(3),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.green),
+                      border: Border.all(
+                        color: _getColorForItemType(item.type),
+                      ),
                       borderRadius: BorderRadius.circular(2),
                     ),
                     width: 15,
@@ -47,21 +53,24 @@ class MenuCard extends StatelessWidget {
                       height: 2,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.green,
+                        color: _getColorForItemType(item.type),
                       ),
                     ),
                   ),
+
                   SizedBox(height: 5),
                   Container(
                     child: Text(
                       this.item.name,
-                      style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 20),
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w600, fontSize: 20),
                     ),
                   ),
                   Container(
                     child: Text(
                       this.item.price.toString(),
-                      style: GoogleFonts.poppins(color: Colors.grey, fontSize: 15),
+                      style:
+                          GoogleFonts.poppins(color: Colors.grey, fontSize: 15),
                     ),
                   )
                 ],
@@ -75,7 +84,8 @@ class MenuCard extends StatelessWidget {
                 children: [
                   ClipOval(
                     child: Card(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(2)),
                       child: Image.network(
                         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIKBQ1QsbsgJfhfCgWdmw7EA4pakpwVG0lVC4p-U6CGg&s',
                         height: 80,
@@ -92,7 +102,8 @@ class MenuCard extends StatelessWidget {
                           decoration: BoxDecoration(shape: BoxShape.circle),
                           child: Icon(Icons.remove, color: Colors.grey),
                         ),
-                        style: TextButton.styleFrom(backgroundColor: Colors.transparent),
+                        style: TextButton.styleFrom(
+                            backgroundColor: Colors.transparent),
                       ),
                       Text(quantityInCart.toString()),
                       TextButton(
@@ -101,7 +112,8 @@ class MenuCard extends StatelessWidget {
                           decoration: BoxDecoration(shape: BoxShape.circle),
                           child: Icon(Icons.add, color: Colors.redAccent),
                         ),
-                        style: TextButton.styleFrom(backgroundColor: Colors.transparent),
+                        style: TextButton.styleFrom(
+                            backgroundColor: Colors.transparent),
                       ),
                     ],
                   )
@@ -111,8 +123,20 @@ class MenuCard extends StatelessWidget {
           ],
         ),
       ),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-      elevation: 2,
     );
+  }
+}
+
+Color _getColorForItemType(int itemType) {
+  switch (itemType) {
+    case 0:
+      return Colors.green;
+    case 1:
+      return Colors.yellow;
+    case 2:
+      return Colors.red;
+    default:
+      return Colors
+          .transparent; // You can set a default color or handle it as per your requirement
   }
 }

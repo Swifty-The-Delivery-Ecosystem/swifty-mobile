@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:swifty_mobile/components/category_carousel.dart';
 import 'package:swifty_mobile/components/popular_now_carousel.dart';
 import '../components/location_modal.dart';
-import '../models/restaurantModel.dart';
 import 'profile_screen.dart';
 import 'package:swifty_mobile/providers/restaurants_provider.dart';
 import 'placeholders.dart';
@@ -28,6 +26,12 @@ class _DashboardState extends State<Dashboard> {
             setState(() {
               selectedLocation = location;
             });
+
+            int locationId = getLocationId(location);
+
+            // Use context.read to get the RestaurantProvider and trigger the rebuild
+            context.read<RestaurantProvider>().getRestaurants(locationId);
+
             Navigator.pop(context);
           },
           selectedLocation: selectedLocation,

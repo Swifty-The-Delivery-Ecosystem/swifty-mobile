@@ -23,7 +23,7 @@ class MenuItem {
 
     return MenuItem(
       name: json['name'],
-      restaurantId: json['_id'],
+      restaurantId: json['restaurant_id'],
       type: json['type'],
       price: json['price'].toDouble(),
       quantity: json['quantity'],
