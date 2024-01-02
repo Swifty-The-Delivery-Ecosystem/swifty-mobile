@@ -7,7 +7,7 @@ import '../components/location_modal.dart';
 import '../models/restaurantModel.dart';
 import 'profile_screen.dart';
 import 'package:swifty_mobile/providers/restaurants_provider.dart';
-// import 'placeholders.dart';
+import 'placeholders.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -103,22 +103,49 @@ class _DashboardState extends State<Dashboard> {
             Consumer<RestaurantProvider>(
               builder: (context, restaurantProvider, _) {
                 if (!restaurantProvider.isLoading) {
-                  return ListView.builder(
-                      itemCount: restaurantProvider.restaurants.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        Restaurant restaurant =
-                            restaurantProvider.restaurants[index];
-                        return Card(
-                          child: Text(restaurant.name),
-                        );
-                      });
+                  return Expanded(
+                    child: Column(
+                      children: [
+                        PopularNowCarousel(
+                          restaurants: restaurantProvider.restaurants,
+                        ),
+                      ],
+                    ),
+                  );
                 } else {
-                  return Column(
-                    children: [
-                      CategoryCarousel(),
-                      SizedBox(height: 20),
-                      PopularNowCarousel(),
-                    ],
+                  return Center(
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.grey.shade300,
+                      highlightColor: Colors.grey.shade100,
+                      enabled: true,
+                      child: const SingleChildScrollView(
+                        physics: NeverScrollableScrollPhysics(),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            BannerPlaceholder(),
+                            TitlePlaceholder(width: double.infinity),
+                            SizedBox(height: 16.0),
+                            ContentPlaceholder(
+                              lineType: ContentLineType.threeLines,
+                            ),
+                            SizedBox(height: 16.0),
+                            TitlePlaceholder(width: 200.0),
+                            SizedBox(height: 16.0),
+                            ContentPlaceholder(
+                              lineType: ContentLineType.twoLines,
+                            ),
+                            SizedBox(height: 16.0),
+                            TitlePlaceholder(width: 200.0),
+                            SizedBox(height: 16.0),
+                            ContentPlaceholder(
+                              lineType: ContentLineType.twoLines,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   );
                 }
               },
@@ -129,36 +156,3 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 }
-// else {
-//                     return  Center(child: Shimmer.fromColors(
-//                     baseColor: Colors.grey.shade300,
-//                     highlightColor: Colors.grey.shade100,
-//                         enabled: true,
-//                         child: const SingleChildScrollView(
-//                         physics: NeverScrollableScrollPhysics(),
-//                   child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   mainAxisSize: MainAxisSize.max,
-//                   children: [
-//                   BannerPlaceholder(),
-//                   TitlePlaceholder(width: double.infinity),
-//                   SizedBox(height: 16.0),
-//                   ContentPlaceholder(
-//                   lineType: ContentLineType.threeLines,
-//                   ),
-//                   SizedBox(height: 16.0),
-//                   TitlePlaceholder(width: 200.0),
-//                   SizedBox(height: 16.0),
-//                   ContentPlaceholder(
-//                   lineType: ContentLineType.twoLines,
-//                   ),
-//                   SizedBox(height: 16.0),
-//                   TitlePlaceholder(width: 200.0),
-//                   SizedBox(height: 16.0),
-//                   ContentPlaceholder(
-//                   lineType: ContentLineType.twoLines,
-//                   ),
-//                   ],
-//                   ),
-//                   )));
-//                   }

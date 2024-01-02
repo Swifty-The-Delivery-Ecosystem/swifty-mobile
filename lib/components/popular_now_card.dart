@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
-
 class PopularNowCard extends StatelessWidget {
   const PopularNowCard({
     Key? key,
     required this.title,
-    required this.price,
-    required this.deliveryTime,
+    required this.rating,
     required this.image,
     required this.onPressed,
     required this.onLike,
@@ -14,8 +12,7 @@ class PopularNowCard extends StatelessWidget {
   }) : super(key: key);
 
   final String title;
-  final double price;
-  final double deliveryTime;
+  final double rating;
   final String image;
   final VoidCallback onPressed;
   final Function(bool value) onLike;
@@ -27,7 +24,7 @@ class PopularNowCard extends StatelessWidget {
       children: [
         Container(
           width: 155,
-          height: 230,
+          height: 180,
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -39,16 +36,16 @@ class PopularNowCard extends StatelessWidget {
               Container(
                 height: 120,
                 child: FadeInImage(
-                  placeholder: AssetImage(image),
-                  image: AssetImage(image),
+                  placeholder: NetworkImage(image),
+                  image: NetworkImage(image),
                   fit: BoxFit.cover,
                   width: double.infinity,
                 ),
               ),
               Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 14,
+                  horizontal: 6,
+                  vertical: 4, // Adjusted the vertical padding
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -57,21 +54,14 @@ class PopularNowCard extends StatelessWidget {
                     Text(
                       title,
                       style: const TextStyle(
-                        fontSize: 14,
+                        fontSize: 16,
                         letterSpacing: 1.1,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 2), // Adjusted the SizedBox height
                     Text(
-                      '\$$price',
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.black87,
-                      ),
-                    ),
-                    Text(
-                      '${deliveryTime.round()} mins delivery',
+                      '★ ${rating}',
                       style: const TextStyle(
                         fontSize: 10,
                         color: Colors.black87,

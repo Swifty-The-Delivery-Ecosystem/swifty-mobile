@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ListenableProvider<RestaurantProvider>(
-          create: (_) => RestaurantProvider(),
+          create: (_) => RestaurantProvider()..getRestaurants(1),
         ),
         // Add other providers if needed
       ],

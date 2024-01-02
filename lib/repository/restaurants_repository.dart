@@ -9,7 +9,7 @@ class RestaurantRepository{
 
     try{
       final url = Uri.parse('https://inventory-service-git-main-swiftyeco.vercel.app/api/customer/restaurants');
-      final Map<String, dynamic> requestData = {'location': '1'};
+      final Map<String, dynamic> requestData = {'location': locationID.toString()};
 
       final response = await client.get(
         url.replace(queryParameters: requestData),
