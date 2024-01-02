@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swifty_mobile/screens/restaurant_screen.dart';
 import 'popular_now_card.dart';
 import 'package:swifty_mobile/models/restaurantModel.dart';
 
@@ -18,17 +19,22 @@ class PopularNowCarousel extends StatelessWidget {
           Restaurant restaurant = restaurants[index];
           return Padding(
             padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-            child: PopularNowCard(
-              title: restaurant.name,
-              rating: double.parse(restaurant.rating!),
-              image: restaurant.imageUrl,
-              onPressed: () {
-                // Handle card press
+            child: GestureDetector(
+              onTap:(){
+                Navigator.push(context,MaterialPageRoute(builder: (context) => RestaurantScreen(menuItems: restaurant.items)));
               },
-              onLike: (value) {
-                // Handle like button press
-              },
-              // favorite: restaurant.isFavorite,
+              child: PopularNowCard(
+                title: restaurant.name,
+                rating: double.parse(restaurant.rating!),
+                image: restaurant.imageUrl,
+                onPressed: () {
+                  // Handle card press
+                },
+                onLike: (value) {
+                  // Handle like button press
+                },
+                // favorite: restaurant.isFavorite,
+              ),
             ),
           );
         },

@@ -3,7 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:swifty_mobile/screens/dashboard.dart';
 import 'package:swifty_mobile/screens/intro_screen.dart';
 import 'package:swifty_mobile/providers/restaurants_provider.dart';
-import 'package:swifty_mobile/screens/login.dart'; 
+import 'package:swifty_mobile/screens/login.dart';
+import 'package:swifty_mobile/screens/restaurant_screen.dart';
 
 void main() {
   runApp(const MyApp());
