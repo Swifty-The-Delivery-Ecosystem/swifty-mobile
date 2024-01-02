@@ -4,11 +4,11 @@ import "package:google_fonts/google_fonts.dart";
 import "package:swifty_mobile/models/menuItemModel.dart";
 
 class MenuCard extends StatelessWidget {
-  MenuItem item;
-  int quantityInCart;
-  VoidCallback onAddToCart;
-  VoidCallback onRemoveFromCart;
-  VoidCallback onUpdateQuantity;
+  final MenuItem item;
+  final int quantityInCart;
+  final VoidCallback onAddToCart;
+  final VoidCallback onRemoveFromCart;
+  final VoidCallback onUpdateQuantity;
 
   MenuCard({
     required this.item,
@@ -23,13 +23,13 @@ class MenuCard extends StatelessWidget {
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 15),
+        margin: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 15),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              flex: 3,
+              flex: 2,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,6 +67,7 @@ class MenuCard extends StatelessWidget {
                 ],
               ),
             ),
+            SizedBox(width: 4), // Add some space between the expanded widgets
             Expanded(
               flex: 2,
               child: Column(
@@ -77,8 +78,8 @@ class MenuCard extends StatelessWidget {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
                       child: Image.network(
                         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIKBQ1QsbsgJfhfCgWdmw7EA4pakpwVG0lVC4p-U6CGg&s',
-                        height: 100,
-                        width: 100,
+                        height: 80,
+                        width: 80,
                         fit: BoxFit.cover,
                       ),
                     ),

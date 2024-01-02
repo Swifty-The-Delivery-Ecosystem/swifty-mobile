@@ -20,8 +20,15 @@ class PopularNowCarousel extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.only(left: 20.0, right: 20.0),
             child: GestureDetector(
-              onTap:(){
-                Navigator.push(context,MaterialPageRoute(builder: (context) => RestaurantScreen(menuItems: restaurant.items)));
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  '/restaurant',
+                  arguments: {
+                    'menuItems': restaurant.items,
+                    'restaurant': restaurant,
+                  },
+                );
               },
               child: PopularNowCard(
                 title: restaurant.name,
