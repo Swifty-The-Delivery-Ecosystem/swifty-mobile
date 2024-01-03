@@ -59,107 +59,111 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
         ),
         backgroundColor: Colors.white, // Set background color to white
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                labelText: 'Search',
-                prefixIcon: Icon(Icons.search),
+      body: Consumer<CartProvider>(
+        builder: (context, cartProvider, _){
+          return  Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    labelText: 'Search',
+                    prefixIcon: Icon(Icons.search),
+                  ),
+                ),
               ),
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: filteredMenuItems.length,
-              itemBuilder: (context, index) {
-                var cartItem = cartProvider.cartItems.firstWhere(
-                  (cartItem) => cartItem.menuItem == filteredMenuItems[index],
-                  orElse: () =>
-                      CartItem(menuItem: filteredMenuItems[index], quantity: 0),
-                );
+              Expanded(
+                child: ListView.builder(
+                  itemCount: filteredMenuItems.length,
+                  itemBuilder: (context, index) {
+                    var cartItem = cartProvider.cartItems.firstWhere(
+                          (cartItem) => cartItem.menuItem == filteredMenuItems[index],
+                      orElse: () =>
+                          CartItem(menuItem: filteredMenuItems[index], quantity: 0),
+                    );
 
-                return MenuCard(
-                  item: filteredMenuItems[index], // Use filteredMenuItems here
-                  quantityInCart: cartItem.quantity,
-                  onAddToCart: () {
-                    setState(() {
-                      if (cartProvider.cartItems.isNotEmpty &&
-                          cartProvider.cartItems.first.menuItem.restaurantId !=
-                              widget.restaurant.id) {
-                        // Show confirmation dialog
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text('Replace Cart Items?'),
-                              content: Text(
-                                'Do you want to replace items from your cart with items from ${widget.restaurant.name}?',
-                              ),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop(); // Cancel
-                                  },
-                                  child: Text('Cancel'),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    // Clear the cart after a delay
-                                    Future.delayed(Duration.zero, () {
-                                      cartProvider.clearCart();
-                                    });
+                    return MenuCard(
+                      item: filteredMenuItems[index], // Use filteredMenuItems here
+                      quantityInCart: cartItem.quantity,
+                      onAddToCart: () {
+                        setState(() {
+                          if (cartProvider.cartItems.isNotEmpty &&
+                              cartProvider.cartItems.first.menuItem.restaurantId !=
+                                  widget.restaurant.id) {
+                            // Show confirmation dialog
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Replace Cart Items?'),
+                                  content: Text(
+                                    'Do you want to replace items from your cart with items from ${widget.restaurant.name}?',
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop(); // Cancel
+                                      },
+                                      child: Text('Cancel'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        // Clear the cart after a delay
+                                        Future.delayed(Duration.zero, () {
+                                          cartProvider.clearCart();
+                                        });
 
-                                    // Add the new item after a slight delay
-                                    Future.delayed(Duration(milliseconds: 50),
-                                        () {
-                                      cartProvider.addToCart(
-                                        CartItem(
-                                          menuItem: widget.menuItems[index],
-                                          quantity: 1,
-                                        ),
-                                      );
-                                    });
+                                        // Add the new item after a slight delay
+                                        Future.delayed(Duration(milliseconds: 50),
+                                                () {
+                                              cartProvider.addToCart(
+                                                CartItem(
+                                                  menuItem: widget.menuItems[index],
+                                                  quantity: 1,
+                                                ),
+                                              );
+                                            });
 
-                                    Navigator.of(context).pop(); // Close dialog
-                                  },
-                                  child: Text('Replace'),
-                                ),
-                              ],
+                                        Navigator.of(context).pop(); // Close dialog
+                                      },
+                                      child: Text('Replace'),
+                                    ),
+                                  ],
+                                );
+                              },
                             );
-                          },
-                        );
-                      } else if (cartItem.quantity > 0) {
-                        // Update cart using the provider
-                        cartProvider.increasequantity(cartItem);
-                      } else {
-                        // Add to cart directly
-                        cartProvider.addToCart(
-                          CartItem(
-                              menuItem: widget.menuItems[index], quantity: 1),
-                        );
-                      }
-                    });
+                          } else if (cartItem.quantity > 0) {
+                            // Update cart using the provider
+                            cartProvider.increasequantity(cartItem);
+                          } else {
+                            // Add to cart directly
+                            cartProvider.addToCart(
+                              CartItem(
+                                  menuItem: widget.menuItems[index], quantity: 1),
+                            );
+                          }
+                        });
+                      },
+                      onRemoveFromCart: () {
+                        setState(() {
+                          if (cartItem.quantity > 1) {
+                            cartProvider.decreasequantity(cartItem);
+                          } else {
+                            cartProvider.removeFromCart(cartItem);
+                          }
+                        });
+                      },
+                      onUpdateQuantity: () {
+                        // Add any additional logic for updating quantity if needed
+                      },
+                    );
                   },
-                  onRemoveFromCart: () {
-                    setState(() {
-                      if (cartItem.quantity > 1) {
-                        cartProvider.decreasequantity(cartItem);
-                      } else {
-                        cartProvider.removeFromCart(cartItem);
-                      }
-                    });
-                  },
-                  onUpdateQuantity: () {
-                    // Add any additional logic for updating quantity if needed
-                  },
-                );
-              },
-            ),
-          ),
-        ],
+                ),
+              ),
+            ],
+          );
+        },
       ),
       bottomNavigationBar: cartProvider.cartItems.isNotEmpty
           ? BottomAppBar(

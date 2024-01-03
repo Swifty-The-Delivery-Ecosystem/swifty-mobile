@@ -102,7 +102,7 @@ class _CartScreenState extends State<CartScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Delivery Charge'),
-                      Text('\$10.0'),
+                      Text('\₹10.0'),
                     ],
                   ),
                   SizedBox(height: 10.0),
@@ -114,7 +114,7 @@ class _CartScreenState extends State<CartScreen> {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        '\$${totalAmount.toStringAsFixed(2)}',
+                        '\₹${totalAmount.toStringAsFixed(2)}',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],
