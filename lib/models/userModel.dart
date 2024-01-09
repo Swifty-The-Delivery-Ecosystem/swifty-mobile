@@ -1,31 +1,47 @@
-class User {
-  String? id;
-  int phone;
-  int primaryLoc;
-  String name;
+class UserModel {
+  late String name;
+  late String email;
+  late String password;
+  late int phone;
+  List<String> favouriteVendors = [];
+  late int primaryLocation;
+  OTP? otp; // Marking OTP as nullable
+  bool? isVeg; // Marking isVeg as nullable
 
-  User({this.id, required this.phone, required this.primaryLoc, required this.name});
-
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      id: json['_id'],
-      phone: json['phone'],
-      primaryLoc: json['primary_loc'],
-      name: json['name'],
-    );
-  }
+  UserModel({
+    required this.name,
+    required this.email,
+    required this.password,
+    required this.phone,
+    required this.primaryLocation,
+    this.otp,
+    this.isVeg,
+  });
 
   Map<String, dynamic> toJson() {
-    Map<String, dynamic> json = {
-      'phone': phone,
-      'primary_loc': primaryLoc,
-      'name': name,
+    return {
+      "name": name,
+      "email": email,
+      "password": password,
+      "phone": phone,
+      if (favouriteVendors.isNotEmpty) "favouriteVendors": favouriteVendors,
+      "primaryLocation": primaryLocation,
+      if (otp != null) "otp": otp!.toJson(),
+      if (isVeg != null) "isVeg": isVeg,
     };
+  }
+}
 
-    if (id != null) {
-      json['_id'] = id;
-    }
+class OTP {
+  int? code;
+  DateTime? expiresAt;
 
-    return json;
+  OTP({this.code, this.expiresAt});
+
+  Map<String, dynamic> toJson() {
+    return {
+      "code": code,
+      "expiresAt": expiresAt?.toIso8601String(),
+    };
   }
 }

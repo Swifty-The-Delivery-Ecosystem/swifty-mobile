@@ -35,6 +35,7 @@ dependencies:
   dio: ^5.4.0
   google_fonts: ^6.1.0
   toggle_switch: ^2.1.0
+  flutter_otp_text_field: ^1.1.1
   flutter:
     sdk: flutter
 

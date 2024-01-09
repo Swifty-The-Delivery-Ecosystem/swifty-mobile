@@ -42,7 +42,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var cartProvider = Provider.of<CartProvider>(context, listen: false);
+    var cartProvider = Provider.of<CartProvider>(context, listen: true);
 
     return Scaffold(
       appBar: AppBar(
