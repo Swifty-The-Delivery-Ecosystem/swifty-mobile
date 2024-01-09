@@ -7,7 +7,7 @@ import 'package:swifty_mobile/models/userModel.dart';
 
 class User extends ChangeNotifier{
   late UserModel user;
-  final String baseUrl = 'http://127.0.0.1:8000/api/userAuth';
+  final String baseUrl = 'http://0.0.0.0:8000/api/userAuth';
   Future<int> register(String email, String name, String password, int phone) async {
     try {
       final response = await http.post(
@@ -36,10 +36,10 @@ class User extends ChangeNotifier{
     return 404;
   }
 
-  Future<void> verifyOtp(String otp) async {
+  Future<int> verifyOtp(String otp) async {
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/verify-otp'),
+        Uri.parse('$baseUrl/verify'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'in_otp': otp,
@@ -60,9 +60,11 @@ class User extends ChangeNotifier{
         print('Error verifying OTP: ${response.statusCode}');
         // Handle errors as needed
       }
+      return response.statusCode;
     } catch (error) {
       print('Error verifying OTP: $error');
       // Handle errors as needed
+      return 404;
     }
   }
 

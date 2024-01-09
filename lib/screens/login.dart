@@ -21,8 +21,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> login(String email, String password)async {
-    int statusCode = await Provider.of<User>(context).login(email,  password);
-    if(statusCode == 200){
+    int statusCode = await Provider.of<User>(context,listen: false).login(email,  password);
+    if(statusCode == 201){
       Navigator.pushReplacementNamed(context, '/dashboard');
     }
   }
@@ -180,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: MaterialButton(
                           onPressed: () {
                             // TODO: Implement login logic
-                            Navigator.pushReplacementNamed(context, '/register');
+                            login(email.text, password.text);
                           },
                           color: Color.fromRGBO(49, 39, 79, 1),
                           shape: RoundedRectangleBorder(
