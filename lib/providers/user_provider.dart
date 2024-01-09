@@ -7,7 +7,7 @@ import 'package:swifty_mobile/models/userModel.dart';
 
 class User extends ChangeNotifier{
   late UserModel user;
-  final String baseUrl = 'http://0.0.0.0:8000/api/userAuth';
+  final String baseUrl = 'http://10.0.2.2:8000/api/userAuth';
   Future<int> register(String email, String name, String password, int phone) async {
     try {
       final response = await http.post(
