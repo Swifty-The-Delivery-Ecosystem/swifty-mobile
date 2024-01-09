@@ -8,7 +8,7 @@ import 'package:swifty_mobile/models/userModel.dart';
 class User extends ChangeNotifier{
   late UserModel user;
   final String baseUrl = 'http://127.0.0.1:8000/api/userAuth';
-  Future<void> register(String email, String name, String password, int phone) async {
+  Future<int> register(String email, String name, String password, int phone) async {
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/register'),
@@ -28,10 +28,12 @@ class User extends ChangeNotifier{
         print('Error registering user: ${response.statusCode}');
         // Handle errors as needed
       }
+      return response.statusCode;
     } catch (error) {
       print('Error registering user: $error');
       // Handle errors as needed
     }
+    return 404;
   }
 
   Future<void> verifyOtp(String otp) async {
@@ -64,7 +66,7 @@ class User extends ChangeNotifier{
     }
   }
 
-  Future<void> login(String email, String password) async {
+  Future<int> login(String email, String password) async {
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/login'),
@@ -88,9 +90,11 @@ class User extends ChangeNotifier{
         print('Error logging in: ${response.statusCode}');
         // Handle errors as needed
       }
+      return response.statusCode;
     } catch (error) {
       print('Error logging in: $error');
       // Handle errors as needed
+      return 404;
     }
   }
 

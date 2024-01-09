@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:swifty_mobile/providers/restaurants_provider.dart';
@@ -9,7 +7,9 @@ import 'package:swifty_mobile/screens/cart_details.dart';
 import 'package:swifty_mobile/screens/dashboard.dart';
 import 'package:swifty_mobile/screens/intro_screen.dart';
 import 'package:swifty_mobile/screens/login.dart';
+import 'package:swifty_mobile/screens/register.dart';
 import 'package:swifty_mobile/screens/restaurant_screen.dart';
+import 'package:swifty_mobile/screens/verify_screen.dart';
 import '../components/location_modal.dart';
 
 void main() {
@@ -43,7 +43,8 @@ class MyApp extends StatelessWidget {
       builder: (context, userProvider, _){
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: !userProvider.user.isNull ?'/':'/login',
+          // initialRoute: !userProvider.user.isNull ?'/':'/login',
+          initialRoute: '/',
           onGenerateRoute: (settings) {
             switch (settings.name) {
               case '/':
@@ -52,6 +53,10 @@ class MyApp extends StatelessWidget {
                 return MaterialPageRoute(builder: (context) => Dashboard());
               case '/login':
                 return MaterialPageRoute(builder: (context) => LoginScreen());
+              case '/register':
+                return MaterialPageRoute(builder: (context) => RegisterScreen());
+              case '/verify':
+                return MaterialPageRoute(builder: (context) => VerifyScreen());
               case '/cart':
                 return MaterialPageRoute(builder: (context) => CartScreen());
               case '/restaurant':
