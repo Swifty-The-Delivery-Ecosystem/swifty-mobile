@@ -7,8 +7,8 @@ import 'package:swifty_mobile/models/userModel.dart';
 
 class User extends ChangeNotifier{
   late UserModel user;
-  final String baseUrl = 'http://10.0.2.2:8000/api/userAuth';
-  Future<int> register(String email, String name, String password, int phone) async {
+  final String baseUrl = 'https://auth-six-pi.vercel.app/api/userAuth';
+  Future<int> register(String email, String name, String password, int phone, int primary_location) async {
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/register'),
@@ -18,6 +18,7 @@ class User extends ChangeNotifier{
           'name': name,
           'password': password,
           'phone': phone,
+          'primary_location' : primary_location
         }),
       );
 
@@ -64,6 +65,7 @@ class User extends ChangeNotifier{
     } catch (error) {
       print('Error verifying OTP: $error');
       // Handle errors as needed
+      // TODO:  Add validation
       return 404;
     }
   }

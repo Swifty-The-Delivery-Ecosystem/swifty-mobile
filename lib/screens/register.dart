@@ -13,9 +13,9 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
 
-  Future<void> register(String email, String password, String name, int phone)async {
-    int statusCode = await Provider.of<User>(context, listen: false).register(email, name, password, phone);
-    if(statusCode == 200){
+  Future<void> register(String email, String password, String name, int phone, int primary_location)async {
+    int statusCode = await Provider.of<User>(context, listen: false).register(email, name, password, phone, primary_location);
+    if(statusCode == 201){
       Navigator.pushReplacementNamed(context, '/verify');
     }
   }
@@ -25,6 +25,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
     TextEditingController password = TextEditingController();
     TextEditingController name = TextEditingController();
     TextEditingController phone = TextEditingController();
+    TextEditingController primaryLocationController = TextEditingController();
+
+    final List<String> locationOptions = ['BH1', 'BH2', 'GH1', 'MSH', 'Delta', 'ED1'];
+
+    final Map<String, int> locationMapping = {
+      'BH1': 1,
+      'BH2': 2,
+      'GH1': 3,
+      'MSH': 4,
+      'Delta': 5,
+      'ED1': 6,
+    };
+
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -175,6 +188,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     ),
                                   ),
                                 ),
+                                Container(
+                                  padding: const EdgeInsets.all(10),
+                                  child: DropdownButtonFormField<String>(
+                                    value: primaryLocationController.text,
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        primaryLocationController.text = newValue ?? '';
+                                      });
+                                    },
+                                    items: locationOptions.map((String option) {
+                                      return DropdownMenuItem<String>(
+                                        value: option,
+                                        child: Text(option),
+                                      );
+                                    }).toList(),
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: "Primary Location",
+                                      hintStyle: TextStyle(color: Colors.grey.shade700),
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -205,7 +240,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           duration: const Duration(milliseconds: 1900),
                           child: MaterialButton(
                             onPressed: () {
-                              register(email.text, password.text, name.text, int.parse(phone.text));
+                              register(email.text, password.text, name.text, int.parse(phone.text), locationMapping[primaryLocationController.text]!);
                             },
                             color: Color.fromRGBO(49, 39, 79, 1),
                             shape: RoundedRectangleBorder(

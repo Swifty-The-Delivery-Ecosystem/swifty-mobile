@@ -13,12 +13,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
-  Future<void> register(String email, String password, String name, int phone)async {
-    int statusCode = await Provider.of<User>(context,listen: false).register(email, name, password, phone);
-    if(statusCode == 200){
-      Navigator.pushReplacementNamed(context, '/verify');
-    }
-  }
 
   Future<void> login(String email, String password)async {
     int statusCode = await Provider.of<User>(context,listen: false).login(email,  password);

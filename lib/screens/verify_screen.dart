@@ -15,7 +15,7 @@ class VerifyScreen extends StatefulWidget {
 class _VerifyScreenState extends State<VerifyScreen> {
   Future<void> verify(String otp) async{
     int statusCode = await Provider.of<User>(context, listen: false).verifyOtp(otp);
-    if(statusCode == 200){
+    if(statusCode == 201){
       Navigator.pushNamed(context, '/dashboard');
     }
   }
