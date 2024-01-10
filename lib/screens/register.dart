@@ -14,10 +14,12 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
 
   Future<void> register(String email, String password, String name, int phone, int primary_location)async {
+    print(primary_location);
     int statusCode = await Provider.of<User>(context, listen: false).register(email, name, password, phone, primary_location);
-    if(statusCode == 201){
+    if(statusCode == 200 || statusCode == 201){
       Navigator.pushReplacementNamed(context, '/verify');
     }
+    print(statusCode);
   }
   @override
   Widget build(BuildContext context) {
@@ -190,16 +192,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                                 Container(
                                   padding: const EdgeInsets.all(10),
-                                  child: DropdownButtonFormField<String>(
-                                    value: primaryLocationController.text,
-                                    onChanged: (String? newValue) {
+                                  child: DropdownButtonFormField<int>(
+                                    value: locationMapping[primaryLocationController.text],
+                                    onChanged: (int? newValue) {
                                       setState(() {
-                                        primaryLocationController.text = newValue ?? '';
+                                        primaryLocationController.text = locationMapping.keys.firstWhere(
+                                                (key) => locationMapping[key] == newValue,
+                                            orElse: () => '');
                                       });
                                     },
                                     items: locationOptions.map((String option) {
-                                      return DropdownMenuItem<String>(
-                                        value: option,
+                                      return DropdownMenuItem<int>(
+                                        value: locationMapping[option],
                                         child: Text(option),
                                       );
                                     }).toList(),
@@ -240,7 +244,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           duration: const Duration(milliseconds: 1900),
                           child: MaterialButton(
                             onPressed: () {
-                              register(email.text, password.text, name.text, int.parse(phone.text), locationMapping[primaryLocationController.text]!);
+                              print(primaryLocationController.text);
+                              register(email.text, password.text, name.text, int.parse(phone.text), locationMapping[primaryLocationController.text]??1);
                             },
                             color: Color.fromRGBO(49, 39, 79, 1),
                             shape: RoundedRectangleBorder(

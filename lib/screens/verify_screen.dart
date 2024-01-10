@@ -22,15 +22,17 @@ class _VerifyScreenState extends State<VerifyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          OtpTextField(
-            numberOfFields: 4,
-            onSubmit: (pin) {
-              print("Completed: " + pin);
-            },
-          )
-        ],
+      body: Center(
+        child: Column(
+          children: [
+            OtpTextField(
+              numberOfFields: 4,
+              onSubmit: (pin) {
+                print("Completed: " + pin);
+              },
+            )
+          ],
+        ),
       ),
     );
   }
