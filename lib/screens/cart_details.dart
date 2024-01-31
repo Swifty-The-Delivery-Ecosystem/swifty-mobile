@@ -38,7 +38,7 @@ class _CartScreenState extends State<CartScreen> {
                 return Card(
                   child: ListTile(
                     title: Text(cartItem.menuItem.name),
-                    subtitle: Text('\$${cartItem.menuItem.price}'),
+                    subtitle: Text('₹${cartItem.menuItem.price}'),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -92,7 +92,7 @@ class _CartScreenState extends State<CartScreen> {
                       children: [
                         Text(cartItem.menuItem.name),
                         Text(
-                            '\$${cartItem.menuItem.price * cartItem.quantity}'),
+                            '₹${cartItem.menuItem.price * cartItem.quantity}'),
                       ],
                     );
                   }).toList(),
