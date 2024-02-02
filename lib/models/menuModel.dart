@@ -13,6 +13,10 @@ class Menu {
 
   factory Menu.fromJson(Map<String, dynamic> json) {
     return Menu(
-        id: json['_id'], vendor_id: json['vendor_id'], items: json['items']);
+        id: json['_id'],
+        vendor_id: json['vendor_id'],
+        items: (json['items'] as List).map((item) {
+          return MenuItem.fromJson(item);
+        }).toList());
   }
 }

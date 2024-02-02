@@ -3,7 +3,7 @@ class MenuItem {
   String item_id;
   String image_url;
   bool is_veg;
-  double price;
+  int price;
   String description;
   int quantity;
   String vendor_id;
@@ -15,8 +15,9 @@ class MenuItem {
   String? nutritional_values;
   bool? is_healthy;
   bool? on_offer;
-  double? offer_price;
+  int? offer_price;
 
+//TODO: update to double
   MenuItem({
     required this.name,
     required this.item_id,
@@ -43,11 +44,11 @@ class MenuItem {
       item_id: json['item_id'],
       image_url: json['image_url'],
       is_veg: json['is_veg'],
-      price: json['price'].toDouble(),
+      price: json['price'],
       description: json['description'],
       quantity: json['quantity'],
       vendor_id: json['vendor_id'],
-      rating: json['rating']?.toDouble(),
+      rating: json['rating'],
       number_of_ratings: json['number_of_ratings'],
       tags: json['tags'] != null ? List<String>.from(json['tags']) : null,
       category: json['category'],
@@ -55,7 +56,7 @@ class MenuItem {
       nutritional_values: json['nutritional_values'],
       is_healthy: json['is_healthy'],
       on_offer: json['on_offer'],
-      offer_price: json['offer_price']?.toDouble(),
+      offer_price: json['offer_price'],
     );
   }
 
