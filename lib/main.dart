@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<User>(
-      builder: (context, userProvider, _){
+      builder: (context, userProvider, _) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           // initialRoute: !userProvider.user.isNull ?'/':'/login',
@@ -54,23 +54,23 @@ class MyApp extends StatelessWidget {
               case '/login':
                 return MaterialPageRoute(builder: (context) => LoginScreen());
               case '/register':
-                return MaterialPageRoute(builder: (context) => RegisterScreen());
+                return MaterialPageRoute(
+                    builder: (context) => RegisterScreen());
               case '/verify':
                 return MaterialPageRoute(builder: (context) => VerifyScreen());
               case '/cart':
                 return MaterialPageRoute(builder: (context) => CartScreen());
               case '/restaurant':
-              // Extract parameters from settings.arguments
+                // Extract parameters from settings.arguments
                 final Map<String, dynamic> arguments =
-                settings.arguments as Map<String, dynamic>;
+                    settings.arguments as Map<String, dynamic>;
                 return MaterialPageRoute(
                   builder: (context) => RestaurantScreen(
-                    menuItems: arguments['menuItems'],
                     restaurant: arguments['restaurant'],
                   ),
                 );
               default:
-              // Handle unknown routes
+                // Handle unknown routes
                 return MaterialPageRoute(builder: (context) => Dashboard());
             }
           },

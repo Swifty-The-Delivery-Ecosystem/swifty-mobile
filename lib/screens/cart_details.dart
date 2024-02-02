@@ -58,7 +58,6 @@ class _CartScreenState extends State<CartScreen> {
                           },
                         ),
                         Text('${cartItem.quantity}'),
-                        
                         IconButton(
                           icon: Icon(Icons.add),
                           onPressed: () {
@@ -92,8 +91,7 @@ class _CartScreenState extends State<CartScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(cartItem.menuItem.name),
-                        Text(
-                            '₹${cartItem.menuItem.price * cartItem.quantity}'),
+                        Text('₹${cartItem.menuItem.price * cartItem.quantity}'),
                       ],
                     );
                   }).toList(),
@@ -124,8 +122,50 @@ class _CartScreenState extends State<CartScreen> {
               ),
             ),
           ),
+          Container(
+            width: double.infinity, // Make the button span the full width
+            padding: EdgeInsets.all(16.0),
+            child: ElevatedButton(
+              onPressed: (){
+                _showPaymentOptionsDialog(context);
+              }, // Add your onPressed logic here
+              child: Text("Checkout"),
+            ),
+          ),
         ],
       ),
     );
   }
+}
+void _showPaymentOptionsDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Select Payment Option"),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                // Handle Cash on Delivery (COD) logic
+                Navigator.pop(context);
+                // Add your COD logic here
+              },
+              child: Text("COD"),
+            ),
+            SizedBox(height: 10.0),
+            ElevatedButton(
+              onPressed: () {
+                // Handle Pay Online logic
+                Navigator.pop(context);
+                // Add your Pay Online logic here
+              },
+              child: Text("Pay Online"),
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }
