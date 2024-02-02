@@ -47,7 +47,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.restaurant.name,
+          widget.restaurant.restaurantName,
           style: TextStyle(color: Colors.black), // Set text color to black
         ),
         leading: IconButton(
@@ -60,8 +60,8 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
         backgroundColor: Colors.white, // Set background color to white
       ),
       body: Consumer<CartProvider>(
-        builder: (context, cartProvider, _){
-          return  Column(
+        builder: (context, cartProvider, _) {
+          return Column(
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -78,18 +78,21 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                   itemCount: filteredMenuItems.length,
                   itemBuilder: (context, index) {
                     var cartItem = cartProvider.cartItems.firstWhere(
-                          (cartItem) => cartItem.menuItem == filteredMenuItems[index],
-                      orElse: () =>
-                          CartItem(menuItem: filteredMenuItems[index], quantity: 0),
+                      (cartItem) =>
+                          cartItem.menuItem == filteredMenuItems[index],
+                      orElse: () => CartItem(
+                          menuItem: filteredMenuItems[index], quantity: 0),
                     );
 
                     return MenuCard(
-                      item: filteredMenuItems[index], // Use filteredMenuItems here
+                      item: filteredMenuItems[
+                          index], // Use filteredMenuItems here
                       quantityInCart: cartItem.quantity,
                       onAddToCart: () {
                         setState(() {
                           if (cartProvider.cartItems.isNotEmpty &&
-                              cartProvider.cartItems.first.menuItem.restaurantId !=
+                              cartProvider
+                                      .cartItems.first.menuItem.vendor_id !=
                                   widget.restaurant.id) {
                             // Show confirmation dialog
                             showDialog(
@@ -98,7 +101,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                 return AlertDialog(
                                   title: Text('Replace Cart Items?'),
                                   content: Text(
-                                    'Do you want to replace items from your cart with items from ${widget.restaurant.name}?',
+                                    'Do you want to replace items from your cart with items from ${widget.restaurant.restaurantName}?',
                                   ),
                                   actions: <Widget>[
                                     TextButton(
@@ -115,17 +118,18 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                         });
 
                                         // Add the new item after a slight delay
-                                        Future.delayed(Duration(milliseconds: 50),
-                                                () {
-                                              cartProvider.addToCart(
-                                                CartItem(
-                                                  menuItem: widget.menuItems[index],
-                                                  quantity: 1,
-                                                ),
-                                              );
-                                            });
+                                        Future.delayed(
+                                            Duration(milliseconds: 50), () {
+                                          cartProvider.addToCart(
+                                            CartItem(
+                                              menuItem: widget.menuItems[index],
+                                              quantity: 1,
+                                            ),
+                                          );
+                                        });
 
-                                        Navigator.of(context).pop(); // Close dialog
+                                        Navigator.of(context)
+                                            .pop(); // Close dialog
                                       },
                                       child: Text('Replace'),
                                     ),
@@ -140,7 +144,8 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                             // Add to cart directly
                             cartProvider.addToCart(
                               CartItem(
-                                  menuItem: widget.menuItems[index], quantity: 1),
+                                  menuItem: widget.menuItems[index],
+                                  quantity: 1),
                             );
                           }
                         });

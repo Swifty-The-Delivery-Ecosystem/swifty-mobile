@@ -25,15 +25,16 @@ class PopularNowCarousel extends StatelessWidget {
                   context,
                   '/restaurant',
                   arguments: {
-                    'menuItems': restaurant.items,
+                    // 'menuItems': restaurant.items,
+                    'menuItems': [],
                     'restaurant': restaurant,
                   },
                 );
               },
               child: PopularNowCard(
-                title: restaurant.name,
-                rating: double.parse(restaurant.rating!),
-                image: restaurant.imageUrl,
+                title: restaurant.restaurantName,
+                rating: restaurant.ratings!,
+                image: restaurant.images![0],
                 onPressed: () {
                   // Handle card press
                 },

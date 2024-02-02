@@ -42,7 +42,7 @@ class MenuCard extends StatelessWidget {
                     padding: EdgeInsets.all(3),
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: _getColorForItemType(item.type),
+                        color: _getColorForItemType(item.is_veg),
                       ),
                       borderRadius: BorderRadius.circular(2),
                     ),
@@ -53,7 +53,7 @@ class MenuCard extends StatelessWidget {
                       height: 2,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: _getColorForItemType(item.type),
+                        color: _getColorForItemType(item.is_veg),
                       ),
                     ),
                   ),
@@ -127,13 +127,11 @@ class MenuCard extends StatelessWidget {
   }
 }
 
-Color _getColorForItemType(int itemType) {
+Color _getColorForItemType(bool itemType) {
   switch (itemType) {
-    case 0:
+    case true:
       return Colors.green;
-    case 1:
-      return Colors.yellow;
-    case 2:
+    case false:
       return Colors.red;
     default:
       return Colors

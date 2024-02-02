@@ -3,31 +3,37 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:swifty_mobile/models/restaurantModel.dart';
 
-class RestaurantRepository{
-  Future<List<Restaurant>> getRestaurants(int locationID) async{
+class RestaurantRepository {
+ Future<List<Restaurant>> getRestaurants(int locationID) async {
     final client = http.Client();
 
-    try{
-      final url = Uri.parse('https://inventory-service-git-main-swiftyeco.vercel.app/api/customer/restaurants');
-      final Map<String, dynamic> requestData = {'location': locationID.toString()};
+    try {
+      final url = Uri.parse(
+          'https://inventory-service-git-main-swiftyeco.vercel.app/api/v1/inventory/customer/vendors');
+      final Map<String, dynamic> requestData = {
+        'location': "1",
+      };
 
       final response = await client.get(
         url.replace(queryParameters: requestData),
         headers: {'Content-Type': 'application/json'},
       );
 
-      final data = jsonDecode(response.body);
-      List<Restaurant> restaurants = [];
+      final List<dynamic> data = jsonDecode(response.body);
+      print("iufgo uehtoiuehruhuier  geue uergh");
+      print(data);
 
-      for(var item in data){
-        restaurants.add(Restaurant.fromJson(item));
-      }
-      // print(restaurants.length);
-      // print(restaurants);
+      List<Restaurant> restaurants =
+          data.map((item) => Restaurant.fromJson(item)).toList();
+
       return restaurants;
-    }
-    catch(e){
+    } catch (e) {
+      print(e.toString());
       return Future.error(e.toString());
+    } finally {
+      client
+          .close(); // Close the HTTP client in the finally block to avoid resource leaks
     }
   }
+
 }

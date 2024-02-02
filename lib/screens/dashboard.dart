@@ -108,6 +108,7 @@ class _DashboardState extends State<Dashboard> {
               builder: (context, restaurantProvider, _) {
                 if (!restaurantProvider.isLoading) {
                   return Expanded(
+                    flex: 4,
                     child: Column(
                       children: [
                         PopularNowCarousel(

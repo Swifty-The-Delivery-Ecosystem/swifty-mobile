@@ -1,14 +1,13 @@
 import "dart:convert";
-import  'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:swifty_mobile/models/userModel.dart';
 
-
-
-class User extends ChangeNotifier{
+class User extends ChangeNotifier {
   late UserModel user;
-  final String baseUrl = 'https://auth-six-pi.vercel.app/api/userAuth';
-  Future<int> register(String email, String name, String password, int phone, int primary_location) async {
+  final String baseUrl = 'https://auth-six-pi.vercel.app/api/v1/auth/users';
+  Future<int> register(String email, String name, String password, int phone,
+      int primary_location) async {
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/register'),
@@ -18,13 +17,18 @@ class User extends ChangeNotifier{
           'name': name,
           'password': password,
           'phone': phone,
-          'primary_location' : primary_location
+          'primary_location': primary_location
         }),
       );
 
       if (response.statusCode == 200) {
         print('User registered successfully');
-        user = UserModel(name: name, email: email, password: password, phone: phone, primaryLocation: 1);
+        user = UserModel(
+            name: name,
+            email: email,
+            password: password,
+            phone: phone,
+            primaryLocation: 1);
       } else {
         print('Error registering user: ${response.statusCode}');
         // Handle errors as needed

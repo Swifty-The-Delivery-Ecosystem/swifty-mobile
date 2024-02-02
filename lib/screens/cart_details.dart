@@ -58,6 +58,7 @@ class _CartScreenState extends State<CartScreen> {
                           },
                         ),
                         Text('${cartItem.quantity}'),
+                        
                         IconButton(
                           icon: Icon(Icons.add),
                           onPressed: () {
