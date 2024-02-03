@@ -5,6 +5,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:swifty_mobile/models/userModel.dart';
+import 'package:swifty_mobile/providers/user_provider.dart';
 import '../models/cartItemModel.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../providers/cart_provider.dart'; // Add this line
@@ -18,6 +20,9 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   late double totalAmount;
   late var order_id;
+  late UserModel curUser;
+  late CartProvider cartProvider;
+  late var cartItems;
 
   Future<void> envLoader() async {
     await dotenv.load(fileName: ".env");
@@ -28,12 +33,14 @@ class _CartScreenState extends State<CartScreen> {
     // TODO: implement initState
     super.initState();
     envLoader();
+
+    curUser = context.read<User>().user;
   }
 
   @override
   Widget build(BuildContext context) {
-    var cartProvider = Provider.of<CartProvider>(context);
-
+    cartProvider = Provider.of<CartProvider>(context);
+    cartItems = cartProvider.cartItems;
     // Calculate the total amount
     totalAmount = cartProvider.cartItems.fold<double>(
           0.0,
@@ -166,9 +173,48 @@ class _CartScreenState extends State<CartScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   // Handle Cash on Delivery (COD) logic
                   Navigator.pop(context);
+                  const String orderUrl =
+                      "https://order-service-peach.vercel.app/api/v1/order_service/user";
+                  final Map<String, dynamic> orderRequestData = {
+                    "user_id": curUser.userId,
+                    "items": cartItems,
+                    "amount": totalAmount,
+                    "vendor_id": cartItems[0].restaurantId,
+                    "order_instructions": "Please Send Cutlery",
+                    "payment_method": 'pending',
+                    "order_id": order_id,
+                    "user_location": curUser.primaryLocation,
+                  };
+
+                  try {
+                    final http.Response response = await http.post(
+                      Uri.parse(orderUrl),
+                      headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer ${curUser.tokenId}",
+                      },
+                      body: jsonEncode(orderRequestData),
+                    );
+
+                    if (response.statusCode == 201) {
+                      final Map<String, dynamic> result =
+                          jsonDecode(response.body);
+                      // Process the result as needed
+                      print("Order placed successfully. Result: $result");
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    } else {
+                      // Handle server error or other status codes
+                      print(
+                          "Failed to place order. Status code: ${response.statusCode}");
+                    }
+                  } catch (error) {
+                    // Handle any network or request errors
+                    print("Error: $error");
+                  }
                   // Add your COD logic here
                 },
                 child: Text("COD"),
@@ -283,12 +329,47 @@ class _CartScreenState extends State<CartScreen> {
     } catch (error) {
       print("Error: $error");
     }
-
+    final Map<String, dynamic> orderRequestData = {
+      "user_id": curUser.userId,
+      "items": cartItems,
+      "amount": totalAmount,
+      "vendor_id": cartItems[0].restaurantId,
+      "order_instructions": "Please Send Cutlery",
+      "payment_method": 'paid',
+      "order_id": order_id,
+      "user_location": curUser.primaryLocation,
+    };
     print(response.data.toString());
     context.read<CartProvider>().clearCart();
 
     showAlertDialog(context, "Payment Successful", "");
     await Future.delayed(Duration(seconds: 1));
+
+    const String orderUrl =
+        "https://order-service-peach.vercel.app/api/v1/order_service/user";
+
+    try {
+      final http.Response response = await http.post(
+        Uri.parse(orderUrl),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${curUser.tokenId}",
+        },
+        body: jsonEncode(orderRequestData),
+      );
+
+      if (response.statusCode == 201) {
+        final Map<String, dynamic> result = jsonDecode(response.body);
+        // Process the result as needed
+        print("Order placed successfully. Result: $result");
+      } else {
+        // Handle server error or other status codes
+        print("Failed to place order. Status code: ${response.statusCode}");
+      }
+    } catch (error) {
+      // Handle any network or request errors
+      print("Error: $error");
+    }
 
     Navigator.pop(context);
     Navigator.pop(context);

@@ -89,10 +89,13 @@ class User extends ChangeNotifier {
         final Map<String, dynamic> responseData = jsonDecode(response.body);
         final token = responseData['data']['token'];
         final userId = responseData['data']['userId'];
-
         print('Login successful');
         print('Token: $token');
         print('UserID: $userId');
+        user = UserModel(
+            email: email, password: password, tokenId: token, userId: userId);
+
+        fetchCurrentUser(token);
         // Handle success as needed
       } else {
         print('Error logging in: ${response.statusCode}');
@@ -109,14 +112,17 @@ class User extends ChangeNotifier {
   Future<void> fetchCurrentUser(String token) async {
     try {
       final response = await http.get(
-        Uri.parse('$baseUrl/fetch-current-user'),
+        Uri.parse('$baseUrl/currentUser'),
         headers: {'Authorization': 'Bearer $token'},
       );
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = jsonDecode(response.body);
         final currentUser = responseData['data']['user'];
-
+        user.name = currentUser['name'];
+        user.phone = currentUser['phone'];
+        user.favouriteVendors = currentUser['favourite_vendors'];
+        user.primaryLocation = currentUser['primary_location'];
         print('Current user: $currentUser');
         // Handle success as needed
       } else {
